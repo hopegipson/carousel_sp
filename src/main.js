@@ -56,7 +56,6 @@ let isDragging = false
 const handleTouchStart = (e) => {
   touchStart = e.clientX || e.touches[0].clientX
   isDragging = true
- //$menu.classList.add('is-dragging')
 }
 const handleTouchMove = (e) => {
   if (!isDragging) return
@@ -66,8 +65,35 @@ const handleTouchMove = (e) => {
 }
 const handleTouchEnd = () => {
   isDragging = false
- // $menu.classList.remove('is-dragging')
 }
+
+const handleHoverEventcard = (e) => {
+  var card = e.path[0]
+  var quote = card.getElementsByClassName('quote')[0]
+  var image = card.getElementsByTagName('img')[0]
+
+  console.log(card)
+
+  for (child of e.path[1].children) {
+    var childimage = child.getElementsByTagName('img')[0]
+    var childquote = child.getElementsByClassName('quote')[0]
+    childquote.classList.add("hidden")
+    childimage.style.opacity = 1
+  }
+  image.style.opacity = 0.5
+  let p = document.createElement('p')
+  quote.classList.remove("hidden")
+}
+
+const handleLeaveEventcard = (e) => {
+
+  for (child of e.path[1].children) {
+    var childimage = child.getElementsByTagName('img')[0]
+    var childquote = child.getElementsByClassName('quote')[0]
+    childquote.classList.add("hidden")
+    childimage.style.opacity = 1
+  }
+  }
 
 
 /*--------------------
@@ -84,12 +110,17 @@ $menu.addEventListener('mousemove', handleTouchMove)
 $menu.addEventListener('mouseleave', handleTouchEnd)
 $menu.addEventListener('mouseup', handleTouchEnd)
 
-//tomorrow add a loop that adds an event listener to each individual item, when you hover over that iterm
-//the item goes faded out 
-$menu.addEventListener('mouseover', function (event){
-  event.target.classList.add('is-selected')
-  console.log(event.target)
-})
+
+$items.forEach(function(item){
+  item.addEventListener('mouseover', handleHoverEventcard)
+}
+)
+
+$items.forEach(function(item){
+  item.addEventListener('mouseleave', handleLeaveEventcard)
+}
+)
+
 
 
 $menu.addEventListener('selectstart', () => { return false })

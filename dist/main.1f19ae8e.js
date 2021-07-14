@@ -118,6 +118,12 @@ parcelRequire = (function (modules, cache, entry, globalName) {
 
   return newRequire;
 })({"main.js":[function(require,module,exports) {
+function _createForOfIteratorHelper(o, allowArrayLike) { var it = typeof Symbol !== "undefined" && o[Symbol.iterator] || o["@@iterator"]; if (!it) { if (Array.isArray(o) || (it = _unsupportedIterableToArray(o)) || allowArrayLike && o && typeof o.length === "number") { if (it) o = it; var i = 0; var F = function F() {}; return { s: F, n: function n() { if (i >= o.length) return { done: true }; return { done: false, value: o[i++] }; }, e: function e(_e) { throw _e; }, f: F }; } throw new TypeError("Invalid attempt to iterate non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); } var normalCompletion = true, didErr = false, err; return { s: function s() { it = it.call(o); }, n: function n() { var step = it.next(); normalCompletion = step.done; return step; }, e: function e(_e2) { didErr = true; err = _e2; }, f: function f() { try { if (!normalCompletion && it.return != null) it.return(); } finally { if (didErr) throw err; } } }; }
+
+function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen); }
+
+function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) { arr2[i] = arr[i]; } return arr2; }
+
 var $menu = document.querySelector('.menu');
 var $items = document.querySelectorAll('.menu--item');
 var $images = document.querySelectorAll('.menu--item img');
@@ -173,7 +179,7 @@ var isDragging = false;
 
 var handleTouchStart = function handleTouchStart(e) {
   touchStart = e.clientX || e.touches[0].clientX;
-  isDragging = true; //$menu.classList.add('is-dragging')
+  isDragging = true;
 };
 
 var handleTouchMove = function handleTouchMove(e) {
@@ -184,7 +190,54 @@ var handleTouchMove = function handleTouchMove(e) {
 };
 
 var handleTouchEnd = function handleTouchEnd() {
-  isDragging = false; // $menu.classList.remove('is-dragging')
+  isDragging = false;
+};
+
+var handleHoverEventcard = function handleHoverEventcard(e) {
+  var card = e.path[0];
+  var quote = card.getElementsByClassName('quote')[0];
+  var image = card.getElementsByTagName('img')[0];
+  console.log(card);
+
+  var _iterator = _createForOfIteratorHelper(e.path[1].children),
+      _step;
+
+  try {
+    for (_iterator.s(); !(_step = _iterator.n()).done;) {
+      child = _step.value;
+      var childimage = child.getElementsByTagName('img')[0];
+      var childquote = child.getElementsByClassName('quote')[0];
+      childquote.classList.add("hidden");
+      childimage.style.opacity = 1;
+    }
+  } catch (err) {
+    _iterator.e(err);
+  } finally {
+    _iterator.f();
+  }
+
+  image.style.opacity = 0.5;
+  var p = document.createElement('p');
+  quote.classList.remove("hidden");
+};
+
+var handleLeaveEventcard = function handleLeaveEventcard(e) {
+  var _iterator2 = _createForOfIteratorHelper(e.path[1].children),
+      _step2;
+
+  try {
+    for (_iterator2.s(); !(_step2 = _iterator2.n()).done;) {
+      child = _step2.value;
+      var childimage = child.getElementsByTagName('img')[0];
+      var childquote = child.getElementsByClassName('quote')[0];
+      childquote.classList.add("hidden");
+      childimage.style.opacity = 1;
+    }
+  } catch (err) {
+    _iterator2.e(err);
+  } finally {
+    _iterator2.f();
+  }
 };
 /*--------------------
 Listeners
@@ -198,12 +251,12 @@ $menu.addEventListener('touchend', handleTouchEnd);
 $menu.addEventListener('mousedown', handleTouchStart);
 $menu.addEventListener('mousemove', handleTouchMove);
 $menu.addEventListener('mouseleave', handleTouchEnd);
-$menu.addEventListener('mouseup', handleTouchEnd); //tomorrow add a loop that adds an event listener to each individual item, when you hover over that iterm
-//the item goes faded out 
-
-$menu.addEventListener('mouseover', function (event) {
-  event.target.classList.add('is-selected');
-  console.log(event.target);
+$menu.addEventListener('mouseup', handleTouchEnd);
+$items.forEach(function (item) {
+  item.addEventListener('mouseover', handleHoverEventcard);
+});
+$items.forEach(function (item) {
+  item.addEventListener('mouseleave', handleLeaveEventcard);
 });
 $menu.addEventListener('selectstart', function () {
   return false;
@@ -263,7 +316,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "50437" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "64583" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};

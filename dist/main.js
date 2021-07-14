@@ -53,7 +53,6 @@ var isDragging = false;
 var handleTouchStart = function handleTouchStart(e) {
   touchStart = e.clientX || e.touches[0].clientX;
   isDragging = true;
-  $menu.classList.add('is-dragging');
 };
 var handleTouchMove = function handleTouchMove(e) {
   if (!isDragging) return;
@@ -63,10 +62,78 @@ var handleTouchMove = function handleTouchMove(e) {
 };
 var handleTouchEnd = function handleTouchEnd() {
   isDragging = false;
-  $menu.classList.remove('is-dragging');
 };
 
+var handleHoverEventcard = function handleHoverEventcard(e) {
+  var card = e.path[0];
+  var quote = card.getElementsByClassName('quote')[0];
+  var image = card.getElementsByTagName('img')[0];
 
+  console.log(card);
+
+  var _iteratorNormalCompletion = true;
+  var _didIteratorError = false;
+  var _iteratorError = undefined;
+
+  try {
+    for (var _iterator = e.path[1].children[Symbol.iterator](), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
+      child = _step.value;
+
+      var childimage = child.getElementsByTagName('img')[0];
+      var childquote = child.getElementsByClassName('quote')[0];
+      childquote.classList.add("hidden");
+      childimage.style.opacity = 1;
+    }
+  } catch (err) {
+    _didIteratorError = true;
+    _iteratorError = err;
+  } finally {
+    try {
+      if (!_iteratorNormalCompletion && _iterator.return) {
+        _iterator.return();
+      }
+    } finally {
+      if (_didIteratorError) {
+        throw _iteratorError;
+      }
+    }
+  }
+
+  image.style.opacity = 0.5;
+  var p = document.createElement('p');
+  quote.classList.remove("hidden");
+};
+
+var handleLeaveEventcard = function handleLeaveEventcard(e) {
+  var _iteratorNormalCompletion2 = true;
+  var _didIteratorError2 = false;
+  var _iteratorError2 = undefined;
+
+  try {
+
+    for (var _iterator2 = e.path[1].children[Symbol.iterator](), _step2; !(_iteratorNormalCompletion2 = (_step2 = _iterator2.next()).done); _iteratorNormalCompletion2 = true) {
+      child = _step2.value;
+
+      var childimage = child.getElementsByTagName('img')[0];
+      var childquote = child.getElementsByClassName('quote')[0];
+      childquote.classList.add("hidden");
+      childimage.style.opacity = 1;
+    }
+  } catch (err) {
+    _didIteratorError2 = true;
+    _iteratorError2 = err;
+  } finally {
+    try {
+      if (!_iteratorNormalCompletion2 && _iterator2.return) {
+        _iterator2.return();
+      }
+    } finally {
+      if (_didIteratorError2) {
+        throw _iteratorError2;
+      }
+    }
+  }
+};
 
 /*--------------------
 Listeners
@@ -82,6 +149,13 @@ $menu.addEventListener('mousemove', handleTouchMove);
 $menu.addEventListener('mouseleave', handleTouchEnd);
 $menu.addEventListener('mouseup', handleTouchEnd);
 
+$items.forEach(function (item) {
+  item.addEventListener('mouseover', handleHoverEventcard);
+});
+
+$items.forEach(function (item) {
+  item.addEventListener('mouseleave', handleLeaveEventcard);
+});
 
 $menu.addEventListener('selectstart', function () {
   return false;
@@ -102,17 +176,15 @@ Render
 var render = function render() {
   requestAnimationFrame(render);
   y = lerp(y, scrollY, .1);
-  //dispose(y);
+  dispose(y);
 
   scrollSpeed = y - oldScrollY;
   oldScrollY = y;
 
   gsap.to($items, {
-    skewX: -scrollSpeed * .2,
-    rotate: scrollSpeed * .01,
+    //skewX: -scrollSpeed * .2,
+    // rotate: scrollSpeed * .01,
     scale: 1 - Math.min(100, Math.abs(scrollSpeed)) * 0.003
   });
 };
-
-
 render();
