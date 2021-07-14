@@ -173,8 +173,7 @@ var isDragging = false;
 
 var handleTouchStart = function handleTouchStart(e) {
   touchStart = e.clientX || e.touches[0].clientX;
-  isDragging = true;
-  $menu.classList.add('is-dragging');
+  isDragging = true; //$menu.classList.add('is-dragging')
 };
 
 var handleTouchMove = function handleTouchMove(e) {
@@ -185,8 +184,7 @@ var handleTouchMove = function handleTouchMove(e) {
 };
 
 var handleTouchEnd = function handleTouchEnd() {
-  isDragging = false;
-  $menu.classList.remove('is-dragging');
+  isDragging = false; // $menu.classList.remove('is-dragging')
 };
 /*--------------------
 Listeners
@@ -200,7 +198,13 @@ $menu.addEventListener('touchend', handleTouchEnd);
 $menu.addEventListener('mousedown', handleTouchStart);
 $menu.addEventListener('mousemove', handleTouchMove);
 $menu.addEventListener('mouseleave', handleTouchEnd);
-$menu.addEventListener('mouseup', handleTouchEnd);
+$menu.addEventListener('mouseup', handleTouchEnd); //tomorrow add a loop that adds an event listener to each individual item, when you hover over that iterm
+//the item goes faded out 
+
+$menu.addEventListener('mouseover', function (event) {
+  event.target.classList.add('is-selected');
+  console.log(event.target);
+});
 $menu.addEventListener('selectstart', function () {
   return false;
 });
@@ -259,7 +263,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "61170" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "50437" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};

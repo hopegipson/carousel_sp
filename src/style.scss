@@ -20,12 +20,11 @@ body {
   z-index: 1;
   height: 100%;
   
-  &.is-dragging {
-    cursor: grabbing;
-  }
+  // &.is-dragging {
+  //   cursor: grabbing;
+  // }
   
   &--wrapper {
-    counter-reset: count;
     display: flex;
     position: absolute;
     z-index: 1;
@@ -38,7 +37,6 @@ body {
   
   &--item {
     
-    counter-increment: count;
     position: absolute;
     z-index: 1;
     top: 0;
@@ -127,8 +125,8 @@ body {
 }
 #album-rotator-holder {
   position: relative;
-  user-select: none;
-  will-change: transform;
+  //user-select: none;
+ // will-change: transform;
   //vertical
   //height: 700px;
   //horizontal

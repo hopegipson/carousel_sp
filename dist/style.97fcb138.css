@@ -20,11 +20,7 @@ body {
   z-index: 1;
   height: 100%;
 }
-.menu.is-dragging {
-  cursor: grabbing;
-}
 .menu--wrapper {
-  counter-reset: count;
   display: flex;
   position: absolute;
   z-index: 1;
@@ -33,7 +29,6 @@ body {
   left: 0;
 }
 .menu--item {
-  counter-increment: count;
   position: absolute;
   z-index: 1;
   top: 0;
@@ -88,8 +83,6 @@ body {
 
 #album-rotator-holder {
   position: relative;
-  user-select: none;
-  will-change: transform;
   height: 500px;
   /* transition: all 0.01s ease-out; */
   /* transition: all 0.01s linear; */
