@@ -53,6 +53,7 @@ var isDragging = false;
 var handleTouchStart = function handleTouchStart(e) {
   touchStart = e.clientX || e.touches[0].clientX;
   isDragging = true;
+  //$menu.classList.add('is-dragging')
 };
 var handleTouchMove = function handleTouchMove(e) {
   if (!isDragging) return;
@@ -68,8 +69,7 @@ var handleHoverEventcard = function handleHoverEventcard(e) {
   var card = e.path[0];
   var quote = card.getElementsByClassName('quote')[0];
   var image = card.getElementsByTagName('img')[0];
-
-  console.log(card);
+  var logo = card.getElementsByClassName('logo')[0];
 
   var _iteratorNormalCompletion = true;
   var _didIteratorError = false;
@@ -81,7 +81,12 @@ var handleHoverEventcard = function handleHoverEventcard(e) {
 
       var childimage = child.getElementsByTagName('img')[0];
       var childquote = child.getElementsByClassName('quote')[0];
+      var childlogo = child.getElementsByClassName('logo logomoved')[0];
+
       childquote.classList.add("hidden");
+      if (childlogo) {
+        childlogo.classList.remove("logomoved");
+      }
       childimage.style.opacity = 1;
     }
   } catch (err) {
@@ -99,9 +104,10 @@ var handleHoverEventcard = function handleHoverEventcard(e) {
     }
   }
 
-  image.style.opacity = 0.5;
+  image.style.opacity = 0.3;
   var p = document.createElement('p');
   quote.classList.remove("hidden");
+  logo.classList.add("logomoved");
 };
 
 var handleLeaveEventcard = function handleLeaveEventcard(e) {
@@ -116,7 +122,10 @@ var handleLeaveEventcard = function handleLeaveEventcard(e) {
 
       var childimage = child.getElementsByTagName('img')[0];
       var childquote = child.getElementsByClassName('quote')[0];
+      var logo = child.getElementsByClassName('logo')[0];
       childquote.classList.add("hidden");
+      logo.classList.remove("logomoved");
+
       childimage.style.opacity = 1;
     }
   } catch (err) {

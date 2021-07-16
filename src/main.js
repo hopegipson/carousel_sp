@@ -2,6 +2,8 @@
 const $menu = document.querySelector('.menu')
 const $items = document.querySelectorAll('.menu--item')
 const $images = document.querySelectorAll('.menu--item img')
+const $buttons = document.querySelectorAll('.menu--item button')
+
 let menuWidth = $menu.clientWidth
 let itemWidth = $items[0].clientWidth
 let wrapWidth = $items.length * itemWidth
@@ -70,31 +72,67 @@ const handleTouchEnd = () => {
 
 const handleHoverEventcard = (e) => {
   var card = e.path[0]
-  //var quote = card.getElementsByClassName('quote')[0]
+  var quote = card.getElementsByClassName('quote')[0]
   var image = card.getElementsByTagName('img')[0]
+  var logo = card.getElementsByClassName('logo')[0]
+  var button = card.getElementsByTagName('button')[0]
 
-  console.log(card)
+
 
   for (child of e.path[1].children) {
     var childimage = child.getElementsByTagName('img')[0]
-    //var childquote = child.getElementsByClassName('quote')[0]
-   // childquote.classList.add("hidden")
+    var childquote = child.getElementsByClassName('quote')[0]
+    var childlogo = child.getElementsByClassName('logo logomoved')[0]
+    var childbutton = child.getElementsByTagName('button')[0]
+
+   childquote.classList.add("hidden")
+   childbutton.classList.add("hidden")
+
+   if (childlogo){
+   childlogo.classList.remove("logomoved")
+   }
     childimage.style.opacity = 1
   }
   image.style.opacity = 0.3
   let p = document.createElement('p')
- // quote.classList.remove("hidden")
+  quote.classList.remove("hidden")
+  button.classList.remove("hidden")
+  logo.classList.add("logomoved")
 }
 
 const handleLeaveEventcard = (e) => {
 
   for (child of e.path[1].children) {
     var childimage = child.getElementsByTagName('img')[0]
-  //  var childquote = child.getElementsByClassName('quote')[0]
-   // childquote.classList.add("hidden")
+    var childquote = child.getElementsByClassName('quote')[0]
+    var childbutton = child.getElementsByTagName('button')[0]
+
+    var logo = child.getElementsByClassName('logo')[0]
+    childquote.classList.add("hidden")
+    childbutton.classList.add("hidden")
+
+    logo.classList.remove("logomoved")
+
+
     childimage.style.opacity = 1
   }
   }
+
+  const handleTicketClick = (e) => {
+    e.preventDefault();
+    console.log(e)
+
+    // for (child of e.path[1].children) {
+    //   var childimage = child.getElementsByTagName('img')[0]
+    //   var childquote = child.getElementsByClassName('quote')[0]
+    //   var logo = child.getElementsByClassName('logo')[0]
+    //   childquote.classList.add("hidden")
+    //   logo.classList.remove("logomoved")
+  
+  
+    //   childimage.style.opacity = 1
+    
+    }
 
 
 /*--------------------
@@ -122,6 +160,11 @@ $items.forEach(function(item){
 }
 )
 
+
+$buttons.forEach(function(item){
+  item.addEventListener('click', handleTicketClick)
+}
+)
 
 
 $menu.addEventListener('selectstart', () => { return false })
