@@ -56,6 +56,7 @@ let isDragging = false
 const handleTouchStart = (e) => {
   touchStart = e.clientX || e.touches[0].clientX
   isDragging = true
+ //$menu.classList.add('is-dragging')
 }
 const handleTouchMove = (e) => {
   if (!isDragging) return
@@ -69,28 +70,28 @@ const handleTouchEnd = () => {
 
 const handleHoverEventcard = (e) => {
   var card = e.path[0]
-  var quote = card.getElementsByClassName('quote')[0]
+  //var quote = card.getElementsByClassName('quote')[0]
   var image = card.getElementsByTagName('img')[0]
 
   console.log(card)
 
   for (child of e.path[1].children) {
     var childimage = child.getElementsByTagName('img')[0]
-    var childquote = child.getElementsByClassName('quote')[0]
-    childquote.classList.add("hidden")
+    //var childquote = child.getElementsByClassName('quote')[0]
+   // childquote.classList.add("hidden")
     childimage.style.opacity = 1
   }
-  image.style.opacity = 0.5
+  image.style.opacity = 0.3
   let p = document.createElement('p')
-  quote.classList.remove("hidden")
+ // quote.classList.remove("hidden")
 }
 
 const handleLeaveEventcard = (e) => {
 
   for (child of e.path[1].children) {
     var childimage = child.getElementsByTagName('img')[0]
-    var childquote = child.getElementsByClassName('quote')[0]
-    childquote.classList.add("hidden")
+  //  var childquote = child.getElementsByClassName('quote')[0]
+   // childquote.classList.add("hidden")
     childimage.style.opacity = 1
   }
   }

@@ -179,7 +179,7 @@ var isDragging = false;
 
 var handleTouchStart = function handleTouchStart(e) {
   touchStart = e.clientX || e.touches[0].clientX;
-  isDragging = true;
+  isDragging = true; //$menu.classList.add('is-dragging')
 };
 
 var handleTouchMove = function handleTouchMove(e) {
@@ -194,8 +194,8 @@ var handleTouchEnd = function handleTouchEnd() {
 };
 
 var handleHoverEventcard = function handleHoverEventcard(e) {
-  var card = e.path[0];
-  var quote = card.getElementsByClassName('quote')[0];
+  var card = e.path[0]; //var quote = card.getElementsByClassName('quote')[0]
+
   var image = card.getElementsByTagName('img')[0];
   console.log(card);
 
@@ -205,9 +205,9 @@ var handleHoverEventcard = function handleHoverEventcard(e) {
   try {
     for (_iterator.s(); !(_step = _iterator.n()).done;) {
       child = _step.value;
-      var childimage = child.getElementsByTagName('img')[0];
-      var childquote = child.getElementsByClassName('quote')[0];
-      childquote.classList.add("hidden");
+      var childimage = child.getElementsByTagName('img')[0]; //var childquote = child.getElementsByClassName('quote')[0]
+      // childquote.classList.add("hidden")
+
       childimage.style.opacity = 1;
     }
   } catch (err) {
@@ -216,9 +216,8 @@ var handleHoverEventcard = function handleHoverEventcard(e) {
     _iterator.f();
   }
 
-  image.style.opacity = 0.5;
-  var p = document.createElement('p');
-  quote.classList.remove("hidden");
+  image.style.opacity = 0.3;
+  var p = document.createElement('p'); // quote.classList.remove("hidden")
 };
 
 var handleLeaveEventcard = function handleLeaveEventcard(e) {
@@ -228,9 +227,9 @@ var handleLeaveEventcard = function handleLeaveEventcard(e) {
   try {
     for (_iterator2.s(); !(_step2 = _iterator2.n()).done;) {
       child = _step2.value;
-      var childimage = child.getElementsByTagName('img')[0];
-      var childquote = child.getElementsByClassName('quote')[0];
-      childquote.classList.add("hidden");
+      var childimage = child.getElementsByTagName('img')[0]; //  var childquote = child.getElementsByClassName('quote')[0]
+      // childquote.classList.add("hidden")
+
       childimage.style.opacity = 1;
     }
   } catch (err) {
@@ -316,7 +315,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "64583" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "53383" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};
