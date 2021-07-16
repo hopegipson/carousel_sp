@@ -3,6 +3,8 @@
 var $menu = document.querySelector('.menu');
 var $items = document.querySelectorAll('.menu--item');
 var $images = document.querySelectorAll('.menu--item img');
+var $buttons = document.querySelectorAll('.menu--item button');
+
 var menuWidth = $menu.clientWidth;
 var itemWidth = $items[0].clientWidth;
 var wrapWidth = $items.length * itemWidth;
@@ -70,6 +72,7 @@ var handleHoverEventcard = function handleHoverEventcard(e) {
   var quote = card.getElementsByClassName('quote')[0];
   var image = card.getElementsByTagName('img')[0];
   var logo = card.getElementsByClassName('logo')[0];
+  var button = card.getElementsByTagName('button')[0];
 
   var _iteratorNormalCompletion = true;
   var _didIteratorError = false;
@@ -82,8 +85,11 @@ var handleHoverEventcard = function handleHoverEventcard(e) {
       var childimage = child.getElementsByTagName('img')[0];
       var childquote = child.getElementsByClassName('quote')[0];
       var childlogo = child.getElementsByClassName('logo logomoved')[0];
+      var childbutton = child.getElementsByTagName('button')[0];
 
       childquote.classList.add("hidden");
+      childbutton.classList.add("hidden");
+
       if (childlogo) {
         childlogo.classList.remove("logomoved");
       }
@@ -107,6 +113,7 @@ var handleHoverEventcard = function handleHoverEventcard(e) {
   image.style.opacity = 0.3;
   var p = document.createElement('p');
   quote.classList.remove("hidden");
+  button.classList.remove("hidden");
   logo.classList.add("logomoved");
 };
 
@@ -122,8 +129,12 @@ var handleLeaveEventcard = function handleLeaveEventcard(e) {
 
       var childimage = child.getElementsByTagName('img')[0];
       var childquote = child.getElementsByClassName('quote')[0];
+      var childbutton = child.getElementsByTagName('button')[0];
+
       var logo = child.getElementsByClassName('logo')[0];
       childquote.classList.add("hidden");
+      childbutton.classList.add("hidden");
+
       logo.classList.remove("logomoved");
 
       childimage.style.opacity = 1;
@@ -142,6 +153,21 @@ var handleLeaveEventcard = function handleLeaveEventcard(e) {
       }
     }
   }
+};
+
+var handleTicketClick = function handleTicketClick(e) {
+  e.preventDefault();
+  console.log(e);
+
+  // for (child of e.path[1].children) {
+  //   var childimage = child.getElementsByTagName('img')[0]
+  //   var childquote = child.getElementsByClassName('quote')[0]
+  //   var logo = child.getElementsByClassName('logo')[0]
+  //   childquote.classList.add("hidden")
+  //   logo.classList.remove("logomoved")
+
+
+  //   childimage.style.opacity = 1
 };
 
 /*--------------------
@@ -164,6 +190,10 @@ $items.forEach(function (item) {
 
 $items.forEach(function (item) {
   item.addEventListener('mouseleave', handleLeaveEventcard);
+});
+
+$buttons.forEach(function (item) {
+  item.addEventListener('click', handleTicketClick);
 });
 
 $menu.addEventListener('selectstart', function () {
