@@ -68,53 +68,60 @@ var handleTouchEnd = function handleTouchEnd() {
 };
 
 var handleHoverEventcard = function handleHoverEventcard(e) {
-  var card = e.path[0];
-  var quote = card.getElementsByClassName('quote')[0];
-  var image = card.getElementsByTagName('img')[0];
-  var logo = card.getElementsByClassName('logo')[0];
-  var button = card.getElementsByTagName('button')[0];
+  if (e.path.length == 8) {
+    var card = e.path[0];
+    var quote = card.getElementsByClassName('quote')[0];
+    var image = card.getElementsByTagName('img')[0];
+    var logo = card.getElementsByClassName('logo')[0];
+    var button = card.getElementsByClassName('btn-events')[0];
 
-  var _iteratorNormalCompletion = true;
-  var _didIteratorError = false;
-  var _iteratorError = undefined;
+    var _iteratorNormalCompletion = true;
+    var _didIteratorError = false;
+    var _iteratorError = undefined;
 
-  try {
-    for (var _iterator = e.path[1].children[Symbol.iterator](), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
-      child = _step.value;
-
-      var childimage = child.getElementsByTagName('img')[0];
-      var childquote = child.getElementsByClassName('quote')[0];
-      var childlogo = child.getElementsByClassName('logo logomoved')[0];
-      var childbutton = child.getElementsByTagName('button')[0];
-
-      childquote.classList.add("hidden");
-      childbutton.classList.add("hidden");
-
-      if (childlogo) {
-        childlogo.classList.remove("logomoved");
-      }
-      childimage.style.opacity = 1;
-    }
-  } catch (err) {
-    _didIteratorError = true;
-    _iteratorError = err;
-  } finally {
     try {
-      if (!_iteratorNormalCompletion && _iterator.return) {
-        _iterator.return();
+      for (var _iterator = e.path[1].children[Symbol.iterator](), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
+        child = _step.value;
+
+        var childimage = child.getElementsByTagName('img')[0];
+        var childquote = child.getElementsByClassName('quote')[0];
+        var childlogo = child.getElementsByClassName('logo logomoved')[0];
+        var childbutton = child.getElementsByClassName('btn-events')[0];
+
+        childquote.classList.add("hidden");
+        childbutton.classList.add("hidden");
+
+        if (childlogo) {
+          childlogo.classList.remove("logomoved");
+        }
+        childimage.classList.remove("gray");
+        childimage.style.opacity = 1;
       }
+    } catch (err) {
+      _didIteratorError = true;
+      _iteratorError = err;
     } finally {
-      if (_didIteratorError) {
-        throw _iteratorError;
+      try {
+        if (!_iteratorNormalCompletion && _iterator.return) {
+          _iterator.return();
+        }
+      } finally {
+        if (_didIteratorError) {
+          throw _iteratorError;
+        }
       }
     }
-  }
 
-  image.style.opacity = 0.3;
-  var p = document.createElement('p');
-  quote.classList.remove("hidden");
-  button.classList.remove("hidden");
-  logo.classList.add("logomoved");
+    if (e.path[0].classList.contains("past-event")) {
+      image.classList.add("gray");
+    }
+
+    image.style.opacity = 0.3;
+    var p = document.createElement('p');
+    quote.classList.remove("hidden");
+    button.classList.remove("hidden");
+    logo.classList.add("logomoved");
+  }
 };
 
 var handleLeaveEventcard = function handleLeaveEventcard(e) {
@@ -123,13 +130,12 @@ var handleLeaveEventcard = function handleLeaveEventcard(e) {
   var _iteratorError2 = undefined;
 
   try {
-
     for (var _iterator2 = e.path[1].children[Symbol.iterator](), _step2; !(_iteratorNormalCompletion2 = (_step2 = _iterator2.next()).done); _iteratorNormalCompletion2 = true) {
       child = _step2.value;
 
       var childimage = child.getElementsByTagName('img')[0];
       var childquote = child.getElementsByClassName('quote')[0];
-      var childbutton = child.getElementsByTagName('button')[0];
+      var childbutton = child.getElementsByClassName('btn-events')[0];
 
       var logo = child.getElementsByClassName('logo')[0];
       childquote.classList.add("hidden");
@@ -138,6 +144,7 @@ var handleLeaveEventcard = function handleLeaveEventcard(e) {
       logo.classList.remove("logomoved");
 
       childimage.style.opacity = 1;
+      childimage.classList.remove("gray");
     }
   } catch (err) {
     _didIteratorError2 = true;
@@ -157,17 +164,7 @@ var handleLeaveEventcard = function handleLeaveEventcard(e) {
 
 var handleTicketClick = function handleTicketClick(e) {
   e.preventDefault();
-  console.log(e);
-
-  // for (child of e.path[1].children) {
-  //   var childimage = child.getElementsByTagName('img')[0]
-  //   var childquote = child.getElementsByClassName('quote')[0]
-  //   var logo = child.getElementsByClassName('logo')[0]
-  //   childquote.classList.add("hidden")
-  //   logo.classList.remove("logomoved")
-
-
-  //   childimage.style.opacity = 1
+  //to complete
 };
 
 /*--------------------

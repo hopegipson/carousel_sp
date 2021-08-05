@@ -195,42 +195,49 @@ var handleTouchEnd = function handleTouchEnd() {
 };
 
 var handleHoverEventcard = function handleHoverEventcard(e) {
-  var card = e.path[0];
-  var quote = card.getElementsByClassName('quote')[0];
-  var image = card.getElementsByTagName('img')[0];
-  var logo = card.getElementsByClassName('logo')[0];
-  var button = card.getElementsByTagName('button')[0];
+  if (e.path.length == 8) {
+    var card = e.path[0];
+    var quote = card.getElementsByClassName('quote')[0];
+    var image = card.getElementsByTagName('img')[0];
+    var logo = card.getElementsByClassName('logo')[0];
+    var button = card.getElementsByClassName('btn-events')[0];
 
-  var _iterator = _createForOfIteratorHelper(e.path[1].children),
-      _step;
+    var _iterator = _createForOfIteratorHelper(e.path[1].children),
+        _step;
 
-  try {
-    for (_iterator.s(); !(_step = _iterator.n()).done;) {
-      child = _step.value;
-      var childimage = child.getElementsByTagName('img')[0];
-      var childquote = child.getElementsByClassName('quote')[0];
-      var childlogo = child.getElementsByClassName('logo logomoved')[0];
-      var childbutton = child.getElementsByTagName('button')[0];
-      childquote.classList.add("hidden");
-      childbutton.classList.add("hidden");
+    try {
+      for (_iterator.s(); !(_step = _iterator.n()).done;) {
+        child = _step.value;
+        var childimage = child.getElementsByTagName('img')[0];
+        var childquote = child.getElementsByClassName('quote')[0];
+        var childlogo = child.getElementsByClassName('logo logomoved')[0];
+        var childbutton = child.getElementsByClassName('btn-events')[0];
+        childquote.classList.add("hidden");
+        childbutton.classList.add("hidden");
 
-      if (childlogo) {
-        childlogo.classList.remove("logomoved");
+        if (childlogo) {
+          childlogo.classList.remove("logomoved");
+        }
+
+        childimage.classList.remove("gray");
+        childimage.style.opacity = 1;
       }
-
-      childimage.style.opacity = 1;
+    } catch (err) {
+      _iterator.e(err);
+    } finally {
+      _iterator.f();
     }
-  } catch (err) {
-    _iterator.e(err);
-  } finally {
-    _iterator.f();
-  }
 
-  image.style.opacity = 0.3;
-  var p = document.createElement('p');
-  quote.classList.remove("hidden");
-  button.classList.remove("hidden");
-  logo.classList.add("logomoved");
+    if (e.path[0].classList.contains("past-event")) {
+      image.classList.add("gray");
+    }
+
+    image.style.opacity = 0.3;
+    var p = document.createElement('p');
+    quote.classList.remove("hidden");
+    button.classList.remove("hidden");
+    logo.classList.add("logomoved");
+  }
 };
 
 var handleLeaveEventcard = function handleLeaveEventcard(e) {
@@ -242,12 +249,13 @@ var handleLeaveEventcard = function handleLeaveEventcard(e) {
       child = _step2.value;
       var childimage = child.getElementsByTagName('img')[0];
       var childquote = child.getElementsByClassName('quote')[0];
-      var childbutton = child.getElementsByTagName('button')[0];
+      var childbutton = child.getElementsByClassName('btn-events')[0];
       var logo = child.getElementsByClassName('logo')[0];
       childquote.classList.add("hidden");
       childbutton.classList.add("hidden");
       logo.classList.remove("logomoved");
       childimage.style.opacity = 1;
+      childimage.classList.remove("gray");
     }
   } catch (err) {
     _iterator2.e(err);
@@ -257,14 +265,7 @@ var handleLeaveEventcard = function handleLeaveEventcard(e) {
 };
 
 var handleTicketClick = function handleTicketClick(e) {
-  e.preventDefault();
-  console.log(e); // for (child of e.path[1].children) {
-  //   var childimage = child.getElementsByTagName('img')[0]
-  //   var childquote = child.getElementsByClassName('quote')[0]
-  //   var logo = child.getElementsByClassName('logo')[0]
-  //   childquote.classList.add("hidden")
-  //   logo.classList.remove("logomoved")
-  //   childimage.style.opacity = 1
+  e.preventDefault(); //to complete
 };
 /*--------------------
 Listeners
@@ -346,7 +347,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "61067" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "63866" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};

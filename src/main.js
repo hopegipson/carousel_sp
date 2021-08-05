@@ -1,4 +1,3 @@
-
 const $menu = document.querySelector('.menu')
 const $items = document.querySelectorAll('.menu--item')
 const $images = document.querySelectorAll('.menu--item img')
@@ -71,11 +70,12 @@ const handleTouchEnd = () => {
 }
 
 const handleHoverEventcard = (e) => {
+ if (e.path.length == 8){
   var card = e.path[0]
   var quote = card.getElementsByClassName('quote')[0]
   var image = card.getElementsByTagName('img')[0]
   var logo = card.getElementsByClassName('logo')[0]
-  var button = card.getElementsByTagName('button')[0]
+  var button = card.getElementsByClassName('btn-events')[0]
 
 
 
@@ -83,7 +83,7 @@ const handleHoverEventcard = (e) => {
     var childimage = child.getElementsByTagName('img')[0]
     var childquote = child.getElementsByClassName('quote')[0]
     var childlogo = child.getElementsByClassName('logo logomoved')[0]
-    var childbutton = child.getElementsByTagName('button')[0]
+    var childbutton = child.getElementsByClassName('btn-events')[0]
 
    childquote.classList.add("hidden")
    childbutton.classList.add("hidden")
@@ -91,21 +91,26 @@ const handleHoverEventcard = (e) => {
    if (childlogo){
    childlogo.classList.remove("logomoved")
    }
+   	childimage.classList.remove("gray")
     childimage.style.opacity = 1
   }
-  image.style.opacity = 0.3
+  if (e.path[0].classList.contains("past-event")){
+  	image.classList.add("gray")
+  }
+
+  image.style.opacity = 0.3 
   let p = document.createElement('p')
   quote.classList.remove("hidden")
   button.classList.remove("hidden")
   logo.classList.add("logomoved")
 }
+}
 
 const handleLeaveEventcard = (e) => {
-
   for (child of e.path[1].children) {
     var childimage = child.getElementsByTagName('img')[0]
     var childquote = child.getElementsByClassName('quote')[0]
-    var childbutton = child.getElementsByTagName('button')[0]
+    var childbutton = child.getElementsByClassName('btn-events')[0]
 
     var logo = child.getElementsByClassName('logo')[0]
     childquote.classList.add("hidden")
@@ -115,23 +120,13 @@ const handleLeaveEventcard = (e) => {
 
 
     childimage.style.opacity = 1
+    childimage.classList.remove("gray")
   }
   }
 
   const handleTicketClick = (e) => {
     e.preventDefault();
-    console.log(e)
-
-    // for (child of e.path[1].children) {
-    //   var childimage = child.getElementsByTagName('img')[0]
-    //   var childquote = child.getElementsByClassName('quote')[0]
-    //   var logo = child.getElementsByClassName('logo')[0]
-    //   childquote.classList.add("hidden")
-    //   logo.classList.remove("logomoved")
-  
-  
-    //   childimage.style.opacity = 1
-    
+    //to complete
     }
 
 
@@ -198,3 +193,4 @@ const render = () => {
   })
 }
 render()
+
