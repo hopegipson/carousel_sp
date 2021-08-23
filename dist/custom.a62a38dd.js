@@ -124,10 +124,12 @@ function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o =
 
 function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) { arr2[i] = arr[i]; } return arr2; }
 
-var $menu = document.querySelector('.menu');
-var $items = document.querySelectorAll('.menu--item');
-var $images = document.querySelectorAll('.menu--item img');
-var $buttons = document.querySelectorAll('.menu--item button');
+var $menu = document.querySelector(".menu");
+var $items = document.querySelectorAll(".menu--item");
+var $images = document.querySelectorAll(".menu--item img");
+var $buttons = document.querySelectorAll(".menu--item button");
+var $spans = document.querySelectorAll(".menu-item quote");
+var $past_events = document.querySelectorAll(".past-event");
 var menuWidth = $menu.clientWidth;
 var itemWidth = $items[0].clientWidth;
 var wrapWidth = $items.length * itemWidth;
@@ -197,10 +199,12 @@ var handleTouchEnd = function handleTouchEnd() {
 var handleHoverEventcard = function handleHoverEventcard(e) {
   if (e.path.length == 8) {
     var card = e.path[0];
-    var quote = card.getElementsByClassName('quote')[0];
-    var image = card.getElementsByTagName('img')[0];
-    var logo = card.getElementsByClassName('logo')[0];
-    var button = card.getElementsByClassName('btn-events')[0];
+    var quote = card.getElementsByClassName("quote")[0];
+    var image = card.getElementsByTagName("img")[0];
+    var logo = card.getElementsByClassName("logo")[0];
+    var button = card.getElementsByClassName("btn-events")[0];
+    var span = card.getElementsByClassName("text-span-27")[0];
+    console.log(window.screen.height);
 
     var _iterator = _createForOfIteratorHelper(e.path[1].children),
         _step;
@@ -208,10 +212,10 @@ var handleHoverEventcard = function handleHoverEventcard(e) {
     try {
       for (_iterator.s(); !(_step = _iterator.n()).done;) {
         child = _step.value;
-        var childimage = child.getElementsByTagName('img')[0];
-        var childquote = child.getElementsByClassName('quote')[0];
-        var childlogo = child.getElementsByClassName('logo logomoved')[0];
-        var childbutton = child.getElementsByClassName('btn-events')[0];
+        var childimage = child.getElementsByTagName("img")[0];
+        var childquote = child.getElementsByClassName("quote")[0];
+        var childlogo = child.getElementsByClassName("logo logomoved")[0];
+        var childbutton = child.getElementsByClassName("btn-events")[0];
         childquote.classList.add("hidden");
         childbutton.classList.add("hidden");
 
@@ -232,11 +236,34 @@ var handleHoverEventcard = function handleHoverEventcard(e) {
       image.classList.add("gray");
     }
 
+    if (window.height < 650 || window.width < 900) {
+      console.log("swe should be hiding");
+      span.classList.add("hidden");
+    }
+
     image.style.opacity = 0.3;
-    var p = document.createElement('p');
+    var p = document.createElement("p");
     quote.classList.remove("hidden");
     button.classList.remove("hidden");
     logo.classList.add("logomoved");
+  }
+};
+
+var checkIfTextShouldBeResized = function checkIfTextShouldBeResized() {
+  if (window.innerHeight < 650 || window.innerWidth < 900) {
+    $spans.forEach(function (item) {
+      item.classList.add("hidden");
+    });
+    $buttons.forEach(function (btn) {
+      btn.classList.add("larger_button");
+    });
+  } else {
+    $spans.forEach(function (item) {
+      item.classList.remove("hidden");
+      $buttons.forEach(function (btn) {
+        btn.classList.remove("larger_button");
+      });
+    });
   }
 };
 
@@ -247,10 +274,12 @@ var handleLeaveEventcard = function handleLeaveEventcard(e) {
   try {
     for (_iterator2.s(); !(_step2 = _iterator2.n()).done;) {
       child = _step2.value;
-      var childimage = child.getElementsByTagName('img')[0];
-      var childquote = child.getElementsByClassName('quote')[0];
-      var childbutton = child.getElementsByClassName('btn-events')[0];
-      var logo = child.getElementsByClassName('logo')[0];
+      var childimage = child.getElementsByTagName("img")[0];
+      var childquote = child.getElementsByClassName("quote")[0];
+      var childbutton = child.getElementsByClassName("btn-events")[0];
+      var logo = child.getElementsByClassName("logo")[0];
+      var span = child.getElementsByClassName("text-span-27")[0];
+      span.classList.remove("hidden");
       childquote.classList.add("hidden");
       childbutton.classList.add("hidden");
       logo.classList.remove("logomoved");
@@ -272,31 +301,32 @@ Listeners
 --------------------*/
 
 
-$menu.addEventListener('mousewheel', handleMouseWheel);
-$menu.addEventListener('touchstart', handleTouchStart);
-$menu.addEventListener('touchmove', handleTouchMove);
-$menu.addEventListener('touchend', handleTouchEnd);
-$menu.addEventListener('mousedown', handleTouchStart);
-$menu.addEventListener('mousemove', handleTouchMove);
-$menu.addEventListener('mouseleave', handleTouchEnd);
-$menu.addEventListener('mouseup', handleTouchEnd);
+$menu.addEventListener("mousewheel", handleMouseWheel);
+$menu.addEventListener("touchstart", handleTouchStart);
+$menu.addEventListener("touchmove", handleTouchMove);
+$menu.addEventListener("touchend", handleTouchEnd);
+$menu.addEventListener("mousedown", handleTouchStart);
+$menu.addEventListener("mousemove", handleTouchMove);
+$menu.addEventListener("mouseleave", handleTouchEnd);
+$menu.addEventListener("mouseup", handleTouchEnd);
 $items.forEach(function (item) {
-  item.addEventListener('mouseover', handleHoverEventcard);
+  item.addEventListener("mouseover", handleHoverEventcard);
 });
 $items.forEach(function (item) {
-  item.addEventListener('mouseleave', handleLeaveEventcard);
+  item.addEventListener("mouseleave", handleLeaveEventcard);
 });
 $buttons.forEach(function (item) {
-  item.addEventListener('click', handleTicketClick);
+  item.addEventListener("click", handleTicketClick);
 });
-$menu.addEventListener('selectstart', function () {
+$menu.addEventListener("selectstart", function () {
   return false;
 });
 /*--------------------
 Resize
 --------------------*/
 
-window.addEventListener('resize', function () {
+window.addEventListener("resize", function () {
+  checkIfTextShouldBeResized();
   menuWidth = $menu.clientWidth;
   itemWidth = $items[0].clientWidth;
   wrapWidth = $items.length * itemWidth;
@@ -307,7 +337,7 @@ Render
 
 var render = function render() {
   requestAnimationFrame(render);
-  y = lerp(y, scrollY, .1);
+  y = lerp(y, scrollY, 0.1);
   dispose(y);
   scrollSpeed = y - oldScrollY;
   oldScrollY = y;
@@ -347,7 +377,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "55528" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "57855" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};
