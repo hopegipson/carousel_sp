@@ -1,9 +1,10 @@
-'use strict';
+"use strict";
 
-var $menu = document.querySelector('.menu');
-var $items = document.querySelectorAll('.menu--item');
-var $images = document.querySelectorAll('.menu--item img');
-var $buttons = document.querySelectorAll('.menu--item button');
+var $menu = document.querySelector(".menu");
+var $items = document.querySelectorAll(".menu--item");
+var $images = document.querySelectorAll(".menu--item img");
+var $buttons = document.querySelectorAll(".menu--item button");
+var $spans = document.querySelectorAll(".span_quote_small");
 var menuWidth = $menu.clientWidth;
 var itemWidth = $items[0].clientWidth;
 var wrapWidth = $items.length * itemWidth;
@@ -28,7 +29,7 @@ var dispose = function dispose(scroll) {
     modifiers: {
       x: function x(_x, target) {
         var s = gsap.utils.wrap(-itemWidth, wrapWidth - itemWidth, parseInt(_x));
-        return s + 'px';
+        return s + "px";
       }
     }
   });
@@ -60,123 +61,24 @@ var handleTouchMove = function handleTouchMove(e) {
 var handleTouchEnd = function handleTouchEnd() {
   isDragging = false;
 };
-var handleHoverEventcard = function handleHoverEventcard(e) {
-  if (e.path.length == 8) {
-    var card = e.path[0];
-    var quote = card.getElementsByClassName('quote')[0];
-    var image = card.getElementsByTagName('img')[0];
-    var logo = card.getElementsByClassName('logo')[0];
-    var button = card.getElementsByClassName('btn-events')[0];
-    var _iteratorNormalCompletion = true;
-    var _didIteratorError = false;
-    var _iteratorError = undefined;
-
-    try {
-      for (var _iterator = e.path[1].children[Symbol.iterator](), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
-        child = _step.value;
-
-        var childimage = child.getElementsByTagName('img')[0];
-        var childquote = child.getElementsByClassName('quote')[0];
-        var childlogo = child.getElementsByClassName('logo logomoved')[0];
-        var childbutton = child.getElementsByClassName('btn-events')[0];
-        childquote.classList.add("hidden");
-        childbutton.classList.add("hidden");
-        if (childlogo) {
-          childlogo.classList.remove("logomoved");
-        }
-        childimage.classList.remove("gray");
-        childimage.style.opacity = 1;
-      }
-    } catch (err) {
-      _didIteratorError = true;
-      _iteratorError = err;
-    } finally {
-      try {
-        if (!_iteratorNormalCompletion && _iterator.return) {
-          _iterator.return();
-        }
-      } finally {
-        if (_didIteratorError) {
-          throw _iteratorError;
-        }
-      }
-    }
-
-    if (e.path[0].classList.contains("past-event")) {
-      image.classList.add("gray");
-    }
-    image.style.opacity = 0.3;
-    var p = document.createElement('p');
-    quote.classList.remove("hidden");
-    button.classList.remove("hidden");
-    logo.classList.add("logomoved");
-  }
-};
-var handleLeaveEventcard = function handleLeaveEventcard(e) {
-  var _iteratorNormalCompletion2 = true;
-  var _didIteratorError2 = false;
-  var _iteratorError2 = undefined;
-
-  try {
-    for (var _iterator2 = e.path[1].children[Symbol.iterator](), _step2; !(_iteratorNormalCompletion2 = (_step2 = _iterator2.next()).done); _iteratorNormalCompletion2 = true) {
-      child = _step2.value;
-
-      var childimage = child.getElementsByTagName('img')[0];
-      var childquote = child.getElementsByClassName('quote')[0];
-      var childbutton = child.getElementsByClassName('btn-events')[0];
-      var logo = child.getElementsByClassName('logo')[0];
-      childquote.classList.add("hidden");
-      childbutton.classList.add("hidden");
-      logo.classList.remove("logomoved");
-      childimage.style.opacity = 1;
-      childimage.classList.remove("gray");
-    }
-  } catch (err) {
-    _didIteratorError2 = true;
-    _iteratorError2 = err;
-  } finally {
-    try {
-      if (!_iteratorNormalCompletion2 && _iterator2.return) {
-        _iterator2.return();
-      }
-    } finally {
-      if (_didIteratorError2) {
-        throw _iteratorError2;
-      }
-    }
-  }
-};
-var handleTicketClick = function handleTicketClick(e) {
-  e.preventDefault();
-  //to complete
-};
 /*--------------------
 Listeners
 --------------------*/
-$menu.addEventListener('mousewheel', handleMouseWheel);
-$menu.addEventListener('touchstart', handleTouchStart);
-$menu.addEventListener('touchmove', handleTouchMove);
-$menu.addEventListener('touchend', handleTouchEnd);
-$menu.addEventListener('mousedown', handleTouchStart);
-$menu.addEventListener('mousemove', handleTouchMove);
-$menu.addEventListener('mouseleave', handleTouchEnd);
-$menu.addEventListener('mouseup', handleTouchEnd);
-$items.forEach(function (item) {
-  item.addEventListener('mouseover', handleHoverEventcard);
-});
-$items.forEach(function (item) {
-  item.addEventListener('mouseleave', handleLeaveEventcard);
-});
-$buttons.forEach(function (item) {
-  item.addEventListener('click', handleTicketClick);
-});
-$menu.addEventListener('selectstart', function () {
+$menu.addEventListener("mousewheel", handleMouseWheel);
+$menu.addEventListener("touchstart", handleTouchStart);
+$menu.addEventListener("touchmove", handleTouchMove);
+$menu.addEventListener("touchend", handleTouchEnd);
+$menu.addEventListener("mousedown", handleTouchStart);
+$menu.addEventListener("mousemove", handleTouchMove);
+$menu.addEventListener("mouseleave", handleTouchEnd);
+$menu.addEventListener("mouseup", handleTouchEnd);
+$menu.addEventListener("selectstart", function () {
   return false;
 });
 /*--------------------
 Resize
 --------------------*/
-window.addEventListener('resize', function () {
+window.addEventListener("resize", function () {
   menuWidth = $menu.clientWidth;
   itemWidth = $items[0].clientWidth;
   wrapWidth = $items.length * itemWidth;
@@ -186,7 +88,7 @@ Render
 --------------------*/
 var render = function render() {
   requestAnimationFrame(render);
-  y = lerp(y, scrollY, .1);
+  y = lerp(y, scrollY, 0.1);
   dispose(y);
   scrollSpeed = y - oldScrollY;
   oldScrollY = y;

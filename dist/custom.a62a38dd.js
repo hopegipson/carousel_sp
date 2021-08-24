@@ -118,237 +118,104 @@ parcelRequire = (function (modules, cache, entry, globalName) {
 
   return newRequire;
 })({"js/custom.js":[function(require,module,exports) {
-function _createForOfIteratorHelper(o, allowArrayLike) { var it = typeof Symbol !== "undefined" && o[Symbol.iterator] || o["@@iterator"]; if (!it) { if (Array.isArray(o) || (it = _unsupportedIterableToArray(o)) || allowArrayLike && o && typeof o.length === "number") { if (it) o = it; var i = 0; var F = function F() {}; return { s: F, n: function n() { if (i >= o.length) return { done: true }; return { done: false, value: o[i++] }; }, e: function e(_e) { throw _e; }, f: F }; } throw new TypeError("Invalid attempt to iterate non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); } var normalCompletion = true, didErr = false, err; return { s: function s() { it = it.call(o); }, n: function n() { var step = it.next(); normalCompletion = step.done; return step; }, e: function e(_e2) { didErr = true; err = _e2; }, f: function f() { try { if (!normalCompletion && it.return != null) it.return(); } finally { if (didErr) throw err; } } }; }
-
-function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen); }
-
-function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) { arr2[i] = arr[i]; } return arr2; }
-
-var $menu = document.querySelector(".menu");
-var $items = document.querySelectorAll(".menu--item");
-var $images = document.querySelectorAll(".menu--item img");
-var $buttons = document.querySelectorAll(".menu--item button");
-var $spans = document.querySelectorAll(".menu-item quote");
-var $past_events = document.querySelectorAll(".past-event");
-var menuWidth = $menu.clientWidth;
-var itemWidth = $items[0].clientWidth;
-var wrapWidth = $items.length * itemWidth;
-var scrollSpeed = 0;
-var oldScrollY = 0;
-var scrollY = 0;
-var y = 0;
-/*--------------------
-Lerp
---------------------*/
-
-var lerp = function lerp(v0, v1, t) {
-  return v0 * (1 - t) + v1 * t;
-};
-/*--------------------
-Dispose
---------------------*/
-
-
-var dispose = function dispose(scroll) {
-  gsap.set($items, {
-    x: function x(i) {
-      return i * itemWidth + scroll;
-    },
-    modifiers: {
-      x: function x(_x, target) {
-        var s = gsap.utils.wrap(-itemWidth, wrapWidth - itemWidth, parseInt(_x));
-        return "".concat(s, "px");
-      }
-    }
-  });
-};
-
-dispose(0);
-/*--------------------
-Wheel
---------------------*/
-
-var handleMouseWheel = function handleMouseWheel(e) {
-  scrollY -= e.deltaY * 0.9;
-};
-/*--------------------
-Touch
---------------------*/
-
-
-var touchStart = 0;
-var touchX = 0;
-var isDragging = false;
-
-var handleTouchStart = function handleTouchStart(e) {
-  touchStart = e.clientX || e.touches[0].clientX;
-  isDragging = true; //$menu.classList.add('is-dragging')
-};
-
-var handleTouchMove = function handleTouchMove(e) {
-  if (!isDragging) return;
-  touchX = e.clientX || e.touches[0].clientX;
-  scrollY += (touchX - touchStart) * 2.5;
-  touchStart = touchX;
-};
-
-var handleTouchEnd = function handleTouchEnd() {
-  isDragging = false;
-};
-
-var handleHoverEventcard = function handleHoverEventcard(e) {
-  if (e.path.length == 8) {
-    var card = e.path[0];
-    var quote = card.getElementsByClassName("quote")[0];
-    var image = card.getElementsByTagName("img")[0];
-    var logo = card.getElementsByClassName("logo")[0];
-    var button = card.getElementsByClassName("btn-events")[0];
-    var span = card.getElementsByClassName("text-span-27")[0];
-    console.log(window.screen.height);
-
-    var _iterator = _createForOfIteratorHelper(e.path[1].children),
-        _step;
-
-    try {
-      for (_iterator.s(); !(_step = _iterator.n()).done;) {
-        child = _step.value;
-        var childimage = child.getElementsByTagName("img")[0];
-        var childquote = child.getElementsByClassName("quote")[0];
-        var childlogo = child.getElementsByClassName("logo logomoved")[0];
-        var childbutton = child.getElementsByClassName("btn-events")[0];
-        childquote.classList.add("hidden");
-        childbutton.classList.add("hidden");
-
-        if (childlogo) {
-          childlogo.classList.remove("logomoved");
-        }
-
-        childimage.classList.remove("gray");
-        childimage.style.opacity = 1;
-      }
-    } catch (err) {
-      _iterator.e(err);
-    } finally {
-      _iterator.f();
-    }
-
-    if (e.path[0].classList.contains("past-event")) {
-      image.classList.add("gray");
-    }
-
-    if (window.height < 650 || window.width < 900) {
-      console.log("swe should be hiding");
-      span.classList.add("hidden");
-    }
-
-    image.style.opacity = 0.3;
-    var p = document.createElement("p");
-    quote.classList.remove("hidden");
-    button.classList.remove("hidden");
-    logo.classList.add("logomoved");
-  }
-};
-
-var checkIfTextShouldBeResized = function checkIfTextShouldBeResized() {
-  if (window.innerHeight < 650 || window.innerWidth < 900) {
-    $spans.forEach(function (item) {
-      item.classList.add("hidden");
-    });
-    $buttons.forEach(function (btn) {
-      btn.classList.add("larger_button");
-    });
-  } else {
-    $spans.forEach(function (item) {
-      item.classList.remove("hidden");
-      $buttons.forEach(function (btn) {
-        btn.classList.remove("larger_button");
-      });
-    });
-  }
-};
-
-var handleLeaveEventcard = function handleLeaveEventcard(e) {
-  var _iterator2 = _createForOfIteratorHelper(e.path[1].children),
-      _step2;
-
-  try {
-    for (_iterator2.s(); !(_step2 = _iterator2.n()).done;) {
-      child = _step2.value;
-      var childimage = child.getElementsByTagName("img")[0];
-      var childquote = child.getElementsByClassName("quote")[0];
-      var childbutton = child.getElementsByClassName("btn-events")[0];
-      var logo = child.getElementsByClassName("logo")[0];
-      var span = child.getElementsByClassName("text-span-27")[0];
-      span.classList.remove("hidden");
-      childquote.classList.add("hidden");
-      childbutton.classList.add("hidden");
-      logo.classList.remove("logomoved");
-      childimage.style.opacity = 1;
-      childimage.classList.remove("gray");
-    }
-  } catch (err) {
-    _iterator2.e(err);
-  } finally {
-    _iterator2.f();
-  }
-};
-
-var handleTicketClick = function handleTicketClick(e) {
-  e.preventDefault(); //to complete
-};
-/*--------------------
-Listeners
---------------------*/
-
-
-$menu.addEventListener("mousewheel", handleMouseWheel);
-$menu.addEventListener("touchstart", handleTouchStart);
-$menu.addEventListener("touchmove", handleTouchMove);
-$menu.addEventListener("touchend", handleTouchEnd);
-$menu.addEventListener("mousedown", handleTouchStart);
-$menu.addEventListener("mousemove", handleTouchMove);
-$menu.addEventListener("mouseleave", handleTouchEnd);
-$menu.addEventListener("mouseup", handleTouchEnd);
-$items.forEach(function (item) {
-  item.addEventListener("mouseover", handleHoverEventcard);
-});
-$items.forEach(function (item) {
-  item.addEventListener("mouseleave", handleLeaveEventcard);
-});
-$buttons.forEach(function (item) {
-  item.addEventListener("click", handleTicketClick);
-});
-$menu.addEventListener("selectstart", function () {
-  return false;
-});
-/*--------------------
-Resize
---------------------*/
-
-window.addEventListener("resize", function () {
-  checkIfTextShouldBeResized();
-  menuWidth = $menu.clientWidth;
-  itemWidth = $items[0].clientWidth;
-  wrapWidth = $items.length * itemWidth;
-});
-/*--------------------
-Render
---------------------*/
-
-var render = function render() {
-  requestAnimationFrame(render);
-  y = lerp(y, scrollY, 0.1);
-  dispose(y);
-  scrollSpeed = y - oldScrollY;
-  oldScrollY = y;
-  gsap.to($items, {
-    //skewX: -scrollSpeed * .2,
-    // rotate: scrollSpeed * .01,
-    scale: 1 - Math.min(100, Math.abs(scrollSpeed)) * 0.003
-  });
-};
-
-render();
+// const $menu = document.querySelector(".menu");
+// const $items = document.querySelectorAll(".menu--item");
+// let menuWidth = $menu.clientWidth;
+// let itemWidth = $items[0].clientWidth;
+// let wrapWidth = $items.length * itemWidth;
+// let scrollSpeed = 0;
+// let oldScrollY = 0;
+// let scrollY = 0;
+// let y = 0;
+// /*--------------------
+// Lerp
+// --------------------*/
+// const lerp = (v0, v1, t) => {
+//   return v0 * (1 - t) + v1 * t;
+// };
+// /*--------------------
+// Dispose
+// --------------------*/
+// const dispose = (scroll) => {
+//   gsap.set($items, {
+//     x: (i) => {
+//       return i * itemWidth + scroll;
+//     },
+//     modifiers: {
+//       x: (x, target) => {
+//         const s = gsap.utils.wrap(
+//           -itemWidth,
+//           wrapWidth - itemWidth,
+//           parseInt(x)
+//         );
+//         return `${s}px`;
+//       },
+//     },
+//   });
+// };
+// //dispose(0);
+// /*--------------------
+// Wheel
+// --------------------*/
+// const handleMouseWheel = (e) => {
+//   scrollY -= e.deltaY * 0.9;
+// };
+// /*--------------------
+// Touch
+// --------------------*/
+// let touchStart = 0;
+// let touchX = 0;
+// let isDragging = false;
+// const handleTouchStart = (e) => {
+//   console.log(e);
+//   touchStart = e.clientX || e.touches[0].clientX;
+//   isDragging = true;
+// };
+// const handleTouchMove = (e) => {
+//   if (!isDragging) return;
+//   touchX = e.clientX || e.touches[0].clientX;
+//   scrollY += (touchX - touchStart) * 2.5;
+//   touchStart = touchX;
+// };
+// const handleTouchEnd = () => {
+//   isDragging = false;
+// };
+// /*--------------------
+// Listeners
+// --------------------*/
+// $menu.addEventListener("mousewheel", handleMouseWheel);
+// $menu.addEventListener("touchstart", handleTouchStart);
+// $menu.addEventListener("touchmove", handleTouchMove);
+// $menu.addEventListener("touchend", handleTouchEnd);
+// $menu.addEventListener("mousedown", handleTouchStart);
+// $menu.addEventListener("mousemove", handleTouchMove);
+// $menu.addEventListener("mouseleave", handleTouchEnd);
+// $menu.addEventListener("mouseup", handleTouchEnd);
+// $menu.addEventListener("selectstart", () => {
+//   return false;
+// });
+// /*--------------------
+// Resize
+// --------------------*/
+// window.addEventListener("resize", () => {
+//   menuWidth = $menu.clientWidth;
+//   itemWidth = $items[0].clientWidth;
+//   wrapWidth = $items.length * quoteitemWidth;
+// });
+// /*--------------------
+// Render
+// --------------------*/
+// const render = () => {
+//   requestAnimationFrame(render);
+//   y = lerp(y, scrollY, 0.1);
+//   dispose(y);
+//   scrollSpeed = y - oldScrollY;
+//   oldScrollY = y;
+//   gsap.to($items, {
+//     scale: 1 - Math.min(100, Math.abs(scrollSpeed)) * 0.003,
+//   });
+// };
+// render();
 },{}],"../node_modules/parcel-bundler/src/builtins/hmr-runtime.js":[function(require,module,exports) {
 var global = arguments[3];
 var OVERLAY_ID = '__parcel__error__overlay__';
@@ -377,7 +244,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "57855" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "60479" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};
